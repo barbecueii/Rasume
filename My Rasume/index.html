@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Rasume | Nutpaphat Purimayata</title>
+    <!-- Google Fonts: Inter สำหรับภาษาอังกฤษ และ Noto Sans Thai สำหรับภาษาไทย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome สำหรับ Icon โซเชียลและเมนู -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Sticky Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-accent">My Rasume</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="#hero" class="nav-link active">หน้าแรก</a>
+                <a href="#experience" class="nav-link">ประวัติ</a>
+                <a href="#skills" class="nav-link">ทักษะ</a>
+                <a href="#projects" class="nav-link">ผลงาน</a>
+                <a href="#contact" class="nav-link">ติดต่อ</a>
+            </nav>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <!-- Canvas ด้านหลังสำหรับเอฟเฟกต์จุดเชื่อมโยงโครงข่ายประสาท (Neural Network Interactive Background) -->
+        <canvas id="neuralCanvas"></canvas>
+        
+        <div class="container hero-container">
+            <!-- ฝั่งซ้าย: รูปภาพโปรไฟล์ -->
+            <div class="hero-left">
+                <div class="profile-frame">
+                    <!-- สามารถเปลี่ยน path รูปภาพใน src ได้ตามต้องการ -->
+                    <img src="image/Me.jpg" alt="Profile Picture" class="profile-img">
+                </div>
+            </div>
+            <!-- ฝั่งขวา: ข้อความและรายละเอียด -->
+            <div class="hero-right">
+                <div class="hero-content">
+                    <span class="hero-tag">Welcome to Rasume</span>
+                    <h1 class="hero-title">Nutpaphat Purimayata</h1>
+                    <p class="hero-subtext">
+                        Computer Engineering and Artificial Intelligence <br>
+                        <span class="university">Walailak University</span>
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-primary"> View My Projects <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Education Section (Timeline) -->
+    <section id="experience" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">ประวัติการศึกษา</h2>
+            <p class="section-subtitle">เส้นทางสู่การเป็นผู้เชี่ยวชาญด้านปัญญาประดิษฐ์</p>
+            
+            <div class="timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2024 - ปัจจุบัน</div>
+                    <div class="timeline-content">
+                        <h3>ระดับปริญญาตรี สาขา วิศวกรรมคอมพิวเตอร์และปัญญาประดิษฐ์</h3>
+                        <h4>Walailak University</h4>
+                    </div>
+                </div>
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2021 - 2024</div>
+                    <div class="timeline-content">
+                        <h3>ระดับมัธยมศึกษาตอนปลาย แผนการเรียน วิทย์-คณิต</h3>
+                        <h4>Thepmitrsuksa School</h4>
+                    </div>
+                </div>
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2021</div>
+                    <div class="timeline-content">
+                        <h3>ระดับมัธยมศึกษาตอนต้น</h3>
+                        <h4>Thepmitrsuksa School</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Inventory Section -->
+    <section id="skills" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">คลังทักษะความสามารถ</h2>
+            <p class="section-subtitle">เทคโนโลยีและเครื่องมือที่เชี่ยวชาญเพื่อขับเคลื่อนนวัตกรรม</p>
+            
+            <div class="skills-grid">
+                <!-- Category 1 -->
+                <div class="skill-category">
+                    <div class="category-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>Machine & Deep Learning</h3>
+                    <div class="tags-container">
+                        <span class="skill-tag">Supervised Learning</span>
+                        <span class="skill-tag">Unsupervised Learning</span> 
+                        <span class="skill-tag">ThaiLLM</span>
+                    </div>
+                </div>
+                <!-- Category 2 -->
+                <div class="skill-category">
+                    <div class="category-icon"><i class="fa-solid fa-server"></i></div>
+                    <h3>MLOps & Cloud</h3>
+                    <div class="tags-container">
+                        <span class="skill-tag">Git / GitHub</span>
+                    </div>
+                </div>
+                <!-- Category 3 -->
+                <div class="skill-category">
+                    <div class="category-icon"><i class="fa-solid fa-code"></i></div>
+                    <h3>Programming Languages</h3>
+                    <div class="tags-container">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">CSS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Projects Showcase Section -->
+    <section id="projects" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">กิจกรรม</h2>
+            <p class="section-subtitle">เข้าร่วมกิจกรรมเพื่อพัฒนาทักษะและสร้างสรรค์ผลงาน</p>
+            
+<div class="projects-grid">
+    <!-- Project Card 1 -->
+    <div class="project-card">
+        <div class="project-image-placeholder">
+            <img src="image/ThaiLLM.jpg" alt="Thai Large Language Model Infrastructure">
+        </div>
+        <div class="project-info">
+            <h3 class="project-name">โครงการการพัฒนาโครงสร้างพื้นฐานปัญญาประดิษฐ์สำหรับภาษาไทย Thai Large Language Model</h3>
+            <p class="project-desc">เข้าร่วมกิจกรรมการพัฒนาโครงสร้างพื้นฐานปัญญาประดิษฐ์สำหรับภาษาไทย Thai Large Language Model เมื่อวันที่ 16 ตุลาคม 2568</p>
+            <div class="project-tech">
+                <span class="tech-badge">ThaiLLM</span>
+                <span class="tech-badge">AI Infrastructure</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding bg-light">
+        <div class="container contact-container">
+            <div class="contact-info-side">
+                <h2 class="section-title text-left">Contack</h2>
+                
+                <div class="social-links-container">
+                    <a href="https://www.facebook.com/boat.kungza.1" target="_blank" class="social-box facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <span>Facebook Profile</span>
+                    </a>
+                    <a href="https://www.instagram.com/boat._np/" target="_blank" class="social-box instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>Gmail : boat.9426@gmail.com</p>
+        </div>
+    </footer>
+
+    <!-- ส่วนจำลอง Custom Popup Alert แบบพรีเมียม -->
+    <div id="customAlert" class="alert-overlay">
+        <div class="alert-box">
+            <div class="alert-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <h3>ส่งข้อมูลสำเร็จ!</h3>
+            <p>ระบบจำลองได้จำลองการส่งข้อมูลของคุณเรียบร้อยแล้ว ขอบคุณที่ให้ความสนใจครับ</p>
+            <button id="closeAlert" class="btn btn-primary">ตกลง</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
