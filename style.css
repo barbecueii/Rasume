@@ -1,0 +1,912 @@
+/* ==========================================================================
+   1. VARIABLES & RESET CONFIG
+   ========================================================================== */
+:root {
+    --primary-color: #0F172A;     /* น้ำเงินเข้ม Deep Blue (ความน่าเชื่อถือ) */
+    --secondary-color: #0EA5E9;   /* ฟ้าสว่าง Light Blue / Cyan (ความล้ำสมัย) */
+    --accent-glow: rgba(14, 165, 233, 0.15); /* แสงเรืองบางเบา */
+    --bg-main: #FAFAFA;           /* พื้นหลังหลัก เทาอ่อนมากๆ สบายตา */
+    --bg-card: #FFFFFF;           /* พื้นหลังการ์ด ขาวคลีน */
+    --text-dark: #1E293B;         /* ตัวอักษรหลัก เทาเข้มเกือบดำ */
+    --text-muted: #64748B;        /* ตัวอักษรรอง/คำอธิบาย */
+    --border-color: #E2E8F0;      /* สีเส้นขอบคลีนๆ */
+    --font-sans: 'Inter', 'Noto Sans Thai', sans-serif;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: initial; /* ควบคุมผ่าน JavaScript แทนเพื่อความนุ่มนวลสูงสุด */
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. REUSABLE COMPONENTS
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.section-padding {
+    padding: 100px 0;
+}
+
+.bg-light {
+    background-color: #F1F5F9;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    letter-spacing: -0.05em;
+}
+
+.section-title.text-left {
+    text-align: left;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 60px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+}
+
+.btn-block {
+    width: 100%;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   3. STICKY NAVBAR (GLASSMORPHISM)
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(250, 250, 250, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    transition: var(--transition-smooth);
+}
+
+.navbar.scrolled {
+    padding: 12px 0;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    transition: var(--transition-smooth);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.logo-accent {
+    color: var(--secondary-color);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-link {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    position: relative;
+    padding: 4px 0;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--secondary-color);
+}
+
+/* เอฟเฟกต์เส้นใต้วิ่งแบบ Futuristic */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-color);
+    transition: var(--transition-smooth);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+/* ==========================================================================
+   4. HERO SECTION
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    background-color: var(--bg-main);
+    overflow: hidden;
+}
+
+#neuralCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: all;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* ฝั่งซ้าย: รูปวงกลมโมเดิร์นไฮเทค */
+.hero-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-frame {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    padding: 12px;
+    background: #ffffff;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    transition: var(--transition-smooth);
+}
+
+/* เส้นวงแหวนแสงเรืองรอบๆ รูป */
+.profile-frame::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--secondary-color), transparent);
+    z-index: -1;
+    animation: spin 8s linear infinite;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+}
+
+/* ฝั่งขวา: รายละเอียดข้อความ */
+.hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-tag {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--secondary-color);
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -0.03em;
+}
+
+.dynamic-text {
+    color: var(--secondary-color);
+    font-weight: 600;
+    border-right: 2px solid var(--secondary-color);
+    padding-right: 4px;
+    animation: blink 0.75s step-end infinite;
+}
+
+.hero-subtext {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+.university {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* ==========================================================================
+   5. TIMELINE (EDUCATION & EXPERIENCE)
+   ========================================================================== */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-left: 32px;
+}
+
+/* เส้นแกนกลางไทม์ไลน์ */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: var(--border-color);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -32px;
+    top: 6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 4px solid var(--secondary-color);
+    z-index: 2;
+    transition: var(--transition-smooth);
+}
+
+.timeline-item:hover .timeline-dot {
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 12px var(--secondary-color);
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 6px;
+}
+
+.timeline-content {
+    background-color: var(--bg-card);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+    transition: var(--transition-smooth);
+}
+
+.timeline-content:hover {
+    transform: translateX(5px);
+    border-color: rgba(14, 165, 233, 0.3);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.timeline-content h3 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.timeline-content h4 {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   6. SKILLS INVENTORY (BADGES)
+   ========================================================================== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
+
+.skill-category {
+    background-color: var(--bg-card);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.skill-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+    border-color: rgba(14, 165, 233, 0.2);
+}
+
+.category-icon {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 16px;
+}
+
+.skill-category h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ดีไซน์ Tag/Badge แบบโมเดิร์นคลีน */
+.skill-tag {
+    background-color: #F8FAFC;
+    color: var(--text-dark);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.skill-category:hover .skill-tag {
+    background-color: #ffffff;
+}
+
+.skill-tag:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+/* ==========================================================================
+   7. AI PROJECTS SHOWCASE (GRID)
+   ========================================================================== */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 32px;
+}
+
+.project-card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ส่วนหัวการ์ด ใช้เป็นสัญลักษณ์จำลองกราฟิก */
+.project-image-placeholder {
+    height: 160px;
+    background: linear-gradient(135deg, #F8FAFC, #E2E8F0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: var(--secondary-color);
+    opacity: 0.8;
+    transition: var(--transition-smooth);
+    position: relative;
+}
+
+.project-card:hover .project-image-placeholder {
+    background: linear-gradient(135deg, var(--primary-color), #1E293B);
+    color: #ffffff;
+}
+
+.project-info {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.project-name {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.project-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.tech-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: rgba(14, 165, 233, 0.08);
+    color: var(--secondary-color);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+
+.proj-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition-smooth);
+}
+
+.proj-link:hover {
+    color: var(--secondary-color);
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+    border-color: rgba(14, 165, 233, 0.3);
+}
+
+/* ==========================================================================
+   7. AI PROJECTS SHOWCASE (GRID & IMAGES) - UPGRADED VERSION
+   ========================================================================== */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 32px;
+    margin-top: 20px;
+}
+
+/* ตัวการ์ดโปรเจกต์สไตล์มินิมอลเทค */
+.project-card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+}
+
+/* ส่วนกรอบใส่รูปภาพโปรเจกต์ */
+.project-image-placeholder {
+    height: 220px; /* ปรับความสูงให้พอดีกับภาพสัดส่วนแนวนอน */
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #F1F5F9; /* สีพื้นหลังเผื่อกรณีรูปภาพโหลดช้า */
+}
+
+/* การตั้งค่าตัวรูปภาพให้ตัดพอดีและคมชัด */
+.project-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* บังคับให้รูปภาพเต็มกรอบโดยไม่เสียสัดส่วน */
+    object-position: center;
+    transition: var(--transition-smooth); /* รองรับแอนิเมชันตอน Hover */
+}
+
+/* ฟิล์มสีน้ำเงินเข้มจางๆ เคลือบทับรูปภาพเพื่อคุมโทนล้ำยุค */
+.project-image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 60%, rgba(15, 23, 42, 0.15));
+    pointer-events: none;
+}
+
+/* ส่วนเนื้อหาและข้อความภายในการ์ด */
+.project-info {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* ชื่อโปรเจกต์: ปรับ Line-height ให้อ่านง่ายเมื่อข้อความยาว */
+.project-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    transition: var(--transition-smooth);
+}
+
+/* คำอธิบายสั้นๆ: เน้นให้อ่านสบายตา สแกนง่าย */
+.project-desc {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    flex-grow: 1; /* ดันส่วนแท็กเทคโนโลยีให้สม่ำเสมอกันทุกการ์ด */
+}
+
+/* โซนจัดวางแท็กเครื่องมือ/เทคโนโลยี */
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* ดีไซน์ป้ายแท็กแบบ High-Tech Clean */
+.tech-badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--secondary-color);
+    background-color: rgba(14, 165, 233, 0.06); /* สีฟ้าจางมากๆ */
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(14, 165, 233, 0.15); /* เส้นขอบนีออนบางๆ */
+    transition: var(--transition-smooth);
+}
+
+
+/* ==========================================================================
+   HOVER EFFECTS (เอฟเฟกต์โต้ตอบเมื่อเอาเมาส์ชี้)
+   ========================================================================== */
+
+.project-card:hover {
+    transform: translateY(-6px); /* การ์ดลอยขึ้นเล็กน้อย */
+    border-color: rgba(14, 165, 233, 0.4); /* เส้นขอบเรืองแสงฟ้าสว่างขึ้น */
+    box-shadow: 0 20px 35px rgba(14, 165, 233, 0.08); /* เงาสะท้อนออร่าสีฟ้าด้านล่าง */
+}
+
+/* รูปภาพขยายตัวนุ่มนวลซูมเข้าไป (Smooth Zoom) */
+.project-card:hover .project-image-placeholder img {
+    transform: scale(1.05);
+}
+
+/* ไฮไลท์ชื่อโปรเจกต์เป็นสีฟ้าเมื่อโฟกัสการ์ด */
+.project-card:hover .project-name {
+    color: var(--secondary-color);
+}
+
+/* สลับป้ายแท็กเป็นสีทึบเพื่อความล้ำสมัย */
+.project-card:hover .tech-badge {
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    border-color: var(--secondary-color);
+}
+
+/* ==========================================================================
+   8. CONTACT SECTION & SOCIAL
+   ========================================================================== */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.contact-lead {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+
+.social-links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.social-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-smooth);
+}
+
+.social-box i {
+    font-size: 1.4rem;
+    transition: var(--transition-smooth);
+}
+
+.social-box:hover {
+    transform: translateX(8px);
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+.social-box.gmail:hover i { color: #EA4335; }
+.social-box.facebook:hover i { color: #1877F2; }
+.social-box.instagram:hover i { color: #E1306C; }
+
+/* แบบฟอร์มสไตล์กระจกฝ้าระดับพรีเมียม */
+.glass-form {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.03);
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    transition: var(--transition-smooth);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+/* ==========================================================================
+   9. CUSTOM PREMIUM DIALOG POPUP
+   ========================================================================== */
+.alert-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+}
+
+.alert-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.alert-box {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+    transform: scale(0.9);
+    transition: var(--transition-smooth);
+}
+
+.alert-overlay.active .alert-box {
+    transform: scale(1);
+}
+
+.alert-icon {
+    font-size: 4rem;
+    color: #10B981; /* สีเขียวแห่งความสำเร็จ */
+    margin-bottom: 20px;
+}
+
+.alert-box h3 {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.alert-box p {
+    color: var(--text-muted);
+    margin-bottom: 28px;
+}
+
+/* ==========================================================================
+   10. FOOTER
+   ========================================================================== */
+.footer {
+    background-color: var(--primary-color);
+    color: #94A3B8;
+    padding: 30px 0;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-content {
+    text-align: center;
+}
+
+/* ==========================================================================
+   11. ANIMATIONS KEYFRAMES & RESPONSIVE DESIGN
+   ========================================================================== */
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: var(--secondary-color); }
+}
+
+/* Responsive Flawless Design Breakpoints */
+@media (max-width: 992px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    .hero-right {
+        align-items: center;
+    }
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .section-title.text-left {
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        flex-direction: column;
+        gap: 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        border-top: 1px solid var(--border-color);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+    }
+    .nav-menu.active {
+        max-height: 300px;
+    }
+    .nav-link {
+        padding: 16px 24px;
+        display: block;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .nav-link::after {
+        display: none;
+    }
+    .hero-title {
+        font-size: 2.6rem;
+    }
+    .profile-frame {
+        width: 250px;
+        height: 250px;
+    }
+    .glass-form {
+        padding: 24px;
+    }
+}
+
